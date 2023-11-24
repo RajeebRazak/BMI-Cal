@@ -1,37 +1,36 @@
-let button = document.getElementById('btn');
+function calculate() {
+    var weight = document.getElementById('weight').value;
+    var height = document.getElementById('height').value;
 
-button.addEventListener('click', () => {
-    const height = parseInt(document.getElementById('height').value);
-    const weight = parseInt(document.getElementById('weight').value);
-    const result = document.getElementById('output');
-    let height_status=false, weight_status=false;
+    if ( weight == "" || height == "")
+    {
+       alert("please enter both weight and height")
+       return;
+    }
+    if (isNaN(weight) || isNaN(height))
+    {
+      alert("please enter a valid number")
+      return;
+    }
+    
+    weight = parseFloat(weight);
+    height = parseFloat(height) / 100;
 
-    if(height === '' || isNaN(height) || (height <= 0)){
-        document.getElementById('height_error').innerHTML = 'Please provide a valid height';
-    }else{
-        document.getElementById('height_error').innerHTML = '';
-        height_status=true;
+    var bmi = weight  / (height  * height )
+
+    // Display result
+    const result = document.getElementById('result');
+    result.innerHTML = "Your BMI is" + bmi.toFixed(2);
+
+    const category = document.getElementById('category')
+    if ( bmi < 18.5) {
+        category.innerHTML = "You are UnderWeight";
+    } else if (bmi >= 18.5 && bmi < 25 ) {
+        category.innerHTML = "You have a normal weight";
+    } else if (bmi >= 25 && bmi < 30) {
+        category.innerHTML = "Your  are a OverWeight"
+    } else {
+        category.innerHTML = "Your Obese"
     }
 
-    if(weight === '' || isNaN(weight) || (weight <= 0)){
-        document.getElementById('weight_error').innerHTML = 'Please provide a valid weight';
-    }else{
-        document.getElementById('weight_error').innerHTML = '';
-        weight_status=true;
-    }
-
-    if(height_status && weight_status){
-        const bmi = (weight / ((height*height)/10000)).toFixed(2);
-
-        if(bmi < 18.6){
-            result.innerHTML = 'Under weight : ' + bmi;
-        }else if(bmi >= 18.6 && bmi < 24.9){
-            result.innerHTML = 'Normal : ' + bmi;
-        }else{
-            result.innerHTML = 'Over weight : ' + bmi;
-        }
-    }else{
-        alert('The form has errors');
-        result.innerHTML = '';
-    }
-});
+}
